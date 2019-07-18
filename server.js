@@ -4,6 +4,7 @@ const next = require('next');
 const session = require('koa-session');
 
 const auth = require('./server/auth');
+const api = require('./server/api');
 
 const Redis = require('ioredis');
 
@@ -31,7 +32,8 @@ app.prepare().then(() => {
 
     //config and process github login via oauth
     auth(server);
-
+    api(server);
+    
     router.get('/a/:id', async ctx => {
         const id = ctx.params.id;
         await handle(ctx.req, ctx.res, {

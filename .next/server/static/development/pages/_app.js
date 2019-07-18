@@ -352,6 +352,37 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./components/Page-loading.jsx":
+/*!*************************************!*\
+  !*** ./components/Page-loading.jsx ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! antd/lib/spin/style/css */ "antd/lib/spin/style/css");
+/* harmony import */ var antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(antd_lib_spin_style_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var antd_lib_spin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd/lib/spin */ "antd/lib/spin");
+/* harmony import */ var antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
+/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(styled_jsx_style__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement("div", {
+    className: "jsx-129232560" + " " + "root"
+  }, react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(antd_lib_spin__WEBPACK_IMPORTED_MODULE_1___default.a, null), react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(styled_jsx_style__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    id: "129232560"
+  }, ".root.jsx-129232560{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(255,255,255,0.3);z-index:10001;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9ob2NodW5nd29uZy9Eb2N1bWVudHMvUmVhY3QvbmV4dGpzLXByb2plY3QvY29tcG9uZW50cy9QYWdlLWxvYWRpbmcuanN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUtvQixBQUdnQyxlQUNSLE9BQ0QsTUFDRSxRQUNDLFNBQzJCLGlDQUN0QixjQUNELDBFQUNNLDZGQUNJLG1HQUMzQiIsImZpbGUiOiIvVXNlcnMvaG9jaHVuZ3dvbmcvRG9jdW1lbnRzL1JlYWN0L25leHRqcy1wcm9qZWN0L2NvbXBvbmVudHMvUGFnZS1sb2FkaW5nLmpzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFNwaW4gfSBmcm9tICdhbnRkJztcblxuZXhwb3J0IGRlZmF1bHQgKCkgPT4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwicm9vdFwiPlxuICAgICAgICA8U3BpbiAvPlxuICAgICAgICA8c3R5bGUganN4PntgXG4gICAgICAgICAgICAucm9vdCB7XG4gICAgICAgICAgICAgICAgcG9zaXRpb246IGZpeGVkO1xuICAgICAgICAgICAgICAgIGxlZnQ6IDA7XG4gICAgICAgICAgICAgICAgdG9wOiAwO1xuICAgICAgICAgICAgICAgIHJpZ2h0OiAwO1xuICAgICAgICAgICAgICAgIGJvdHRvbTogMDtcbiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMyk7XG4gICAgICAgICAgICAgICAgei1pbmRleDogMTAwMDE7XG4gICAgICAgICAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICAgICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgICAgICAgfVxuICAgICAgICBgfTwvc3R5bGU+XG4gICAgPC9kaXY+XG4pOyJdfQ== */\n/*@ sourceURL=/Users/hochungwong/Documents/React/nextjs-project/components/Page-loading.jsx */"));
+});
+
+/***/ }),
+
 /***/ "./lib/with-redux.js":
 /*!***************************!*\
   !*** ./lib/with-redux.js ***!
@@ -453,7 +484,7 @@ function getOrCreateStore(initialState) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (true) {
+              if (isServer) {
                 req = ctx.ctx.req;
                 session = req.session;
 
@@ -464,7 +495,9 @@ function getOrCreateStore(initialState) {
                 } else {
                   reduxStore = getOrCreateStore();
                 }
-              } else {}
+              } else {
+                reduxStore = getOrCreateStore();
+              }
 
               ctx.reduxStore = reduxStore;
               appProps = {};
@@ -2697,6 +2730,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _components_Page_loading__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../components/Page-loading */ "./components/Page-loading.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_18__);
+
+
+
+
 
 
 
@@ -2732,24 +2776,59 @@ function (_App) {
     _this = Object(_babel_runtime_corejs2_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__["default"])(this, (_getPrototypeOf2 = Object(_babel_runtime_corejs2_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__["default"])(MyApp)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this), "state", {
-      context: 'value' //self-defined MyApp
-      //http request here
+      context: 'value',
+      loading: false
+    });
 
+    Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this), "startLoading", function () {
+      _this.setState({
+        loading: true
+      });
+    });
+
+    Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this), "stopLoading", function () {
+      _this.setState({
+        loading: false
+      });
     });
 
     return _this;
   }
 
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(MyApp, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeStart', this.startLoading);
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeComplete', this.stopLoading);
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeError', this.startLoading);
+      axios__WEBPACK_IMPORTED_MODULE_18___default.a.get('/github/search/repositories?q=react').then(function (resp) {
+        return console.log(resp.data);
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.off('routeChangeStart');
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.off('routeChangeComplete');
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.off('routeChangeError');
+    } //self-defined MyApp
+    //http request here
+
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
           Component = _this$props.Component,
           pageProps = _this$props.pageProps,
           reduxStore = _this$props.reduxStore;
+      var loading = this.state.loading;
       return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_10__["Container"], null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_14__["Provider"], {
         store: reduxStore
-      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_13__["default"], null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(Component, pageProps))));
+      }, loading ? react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_components_Page_loading__WEBPACK_IMPORTED_MODULE_17__["default"], null) : null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_components_Layout__WEBPACK_IMPORTED_MODULE_13__["default"], null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_16___default.a, {
+        href: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("a", null, "Index")), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_16___default.a, {
+        href: "detail"
+      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("a", null, "detail")), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(Component, pageProps))));
     }
   }], [{
     key: "getInitialProps",
@@ -3018,6 +3097,28 @@ module.exports = require("antd/lib/menu");
 /***/ (function(module, exports) {
 
 module.exports = require("antd/lib/menu/style/css");
+
+/***/ }),
+
+/***/ "antd/lib/spin":
+/*!********************************!*\
+  !*** external "antd/lib/spin" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("antd/lib/spin");
+
+/***/ }),
+
+/***/ "antd/lib/spin/style/css":
+/*!******************************************!*\
+  !*** external "antd/lib/spin/style/css" ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("antd/lib/spin/style/css");
 
 /***/ }),
 

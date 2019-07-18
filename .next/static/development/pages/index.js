@@ -52,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /*!***********************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2FUsers%2Fhochungwong%2FDocuments%2FReact%2Fnextjs-project%2Fpages%2Findex.js ***!
   \***********************************************************************************************************************************************/
@@ -75,5 +75,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[10,"static/runtime/webpack.js"]]]);
+},[[11,"static/runtime/webpack.js"]]]);
 //# sourceMappingURL=index.js.map
