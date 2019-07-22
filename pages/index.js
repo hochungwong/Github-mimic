@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { Button, Icon, Tabs } from 'antd';
 import getConfig from 'next/config';
 import { connect } from 'react-redux';
 import Router, { withRouter } from 'next/router';
-import Repo from '../components/Repo';
+import Repo from '../components/Repos';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -10,15 +11,23 @@ const api = require('../lib/api');
 
 const url = '/search/repositories?q=react';
 
+const isServer = typeof window === 'undefined';
+
+let cachedUserRepos, cachedStarredRepos ;
+
 function Index ({ userRepos, starredRepos, user, router }) {
-    console.log(userRepos);
-    console.log(starredRepos);
-    console.log(user);
     const tabKey = router.query.key || '1';
 
     const handleTableChange = activeKey => {
         Router.push(`/?key=${activeKey}`);
     }
+
+    useEffect(() => {
+        if (!isServer) {
+            cachedUserRepos = userRepos;
+            cachedStarredRepos = starredRepos;
+        }
+    })
 
     if (!user || !user.id) {
         return (
@@ -72,7 +81,7 @@ function Index ({ userRepos, starredRepos, user, router }) {
                             <Repo key={key} repo={repo}/>
                         )}
                     </Tabs.TabPane>
-                    <Tabs.TabPane tab="FollowingRepositories" key="2">
+                    <Tabs.TabPane tab="Starred Repositories" key="2">
                         {starredRepos.map((repo,key) => 
                             <Repo key={key} repo={repo}/>
                         )}
@@ -121,17 +130,33 @@ function Index ({ userRepos, starredRepos, user, router }) {
 同时在服务端渲染的时候，若访问index页面，getInitialProps也会被调用
 属于node环境，不存在客户端domain这些window下才有的环境
 */
+
+
 Index.getInitialProps = async ({ ctx, reduxStore }) => {
     const user = reduxStore.getState().user;
     if (!user || !user.id) {
         return {};
     }
+
+    if (!isServer) {
+        if (cachedUserRepos && cachedStarredRepos) {
+            return {
+                userRepos: cachedUserRepos,
+                starredRepos: cachedStarredRepos
+            }
+        } 
+    }
+    
+
     const userRepos = await api.request({ url: '/user/repos' }, ctx.req, ctx.res);
     const userStarredRepos = await api.request(
         { url: `/user/starred` },
         ctx.req,
         ctx.res
     );
+    
+    
+    
     return {
         userRepos: userRepos.data,
         starredRepos: userStarredRepos.data
@@ -144,4 +169,5 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(Index)) ;
+//withRouter() wrap all connect()
+export default withRouter(connect(mapStateToProps)(Index))  ;
