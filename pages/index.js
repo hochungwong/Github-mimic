@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
-import axios from 'axios';
 const api = require('../lib/api');
 
 const url = '/search/repositories?q=react';
 
-function Index () {
-
-    useEffect(() => {
-        axios.post('/github/test', { test: 123 } );
-    })
-
+function Index ({ userRepos }) {
+    console.log(userRepos);
     return <span>Index</span>
 } 
 
@@ -18,9 +12,9 @@ function Index () {
 属于node环境，不存在客户端domain这些window下才有的环境
 */
 Index.getInitialProps = async ({ ctx }) => {
-    const result = await api.request({ url }, ctx.req, ctx.res);
+    const result = await api.request({ url: '/user/repos' }, ctx.req, ctx.res);
     return {
-        data: result.data
+        userRepos: result.data
     }
 }
 
