@@ -113,6 +113,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var axios = __webpack_require__(/*! axios */ "axios");
 
 var github_base_url = 'https://api.github.com';
+var isServer = typeof window === 'undefined';
 
 function requestGithub(_x, _x2, _x3, _x4) {
   return _requestGithub.apply(this, arguments);
@@ -146,8 +147,6 @@ function _requestGithub() {
   }));
   return _requestGithub.apply(this, arguments);
 }
-
-var isServer = typeof windwo === 'undefined';
 
 function request(_x5, _x6, _x7) {
   return _request.apply(this, arguments);
@@ -327,6 +326,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
+
 
 
 
@@ -336,6 +339,11 @@ var api = __webpack_require__(/*! ../lib/api */ "./lib/api.js");
 var url = '/search/repositories?q=react';
 
 function Index() {
+  Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(function () {
+    axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/github/test', {
+      test: 123
+    });
+  });
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("span", null, "Index");
 }
 /*getInitialProps 会在客户端不同页面之间每次跳转时调用

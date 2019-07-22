@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
 const session = require('koa-session');
+const koaBody = require('koa-body');
 
 const auth = require('./server/auth');
 const api = require('./server/api');
@@ -22,6 +23,9 @@ app.prepare().then(() => {
 
     //encryt cookie
     server.keys = ['test-dev-github'];
+
+    server.use(koaBody());
+
     const SESSION_CONFIG = {
         key: 'sid',
         //store: {} - redis stores user session data

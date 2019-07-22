@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
+import axios from 'axios';
 const api = require('../lib/api');
 
 const url = '/search/repositories?q=react';
 
 function Index () {
+
+    useEffect(() => {
+        axios.post('/github/test', { test: 123 } );
+    })
+
     return <span>Index</span>
 } 
 
