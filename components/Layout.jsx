@@ -12,10 +12,6 @@ const { Header, Content, Footer } = Layout;
 
 const { publicRuntimeConfig } = getConfig();
 
-const Comp = ({ children, color, style }) => (
-    <div style={{ color, ...style }}>{children}</div>
-);
-
 const githubIconStyle = { 
     color: 'white',
     fontSize: 40,

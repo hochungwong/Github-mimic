@@ -61,8 +61,6 @@ class MyApp extends App {
                 <Provider store={reduxStore}>
                     { loading ? <PageLoading /> : null }
                     <Layout>
-                        <Link href='/'><a>Index</a></Link>
-                        <Link href='detail'><a>detail</a></Link>
                         <Component { ...pageProps } />
                     </Layout>
                 </Provider>      
