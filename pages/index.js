@@ -4,6 +4,11 @@ import getConfig from 'next/config';
 import { connect } from 'react-redux';
 import Router, { withRouter } from 'next/router';
 import Repo from '../components/Repos';
+import LRU from 'lru-cache';
+
+const cache = new LRU({
+    maxAge: 1000 * 60 * 10,
+})
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -24,8 +29,10 @@ function Index ({ userRepos, starredRepos, user, router }) {
 
     useEffect(() => {
         if (!isServer) {
-            cachedUserRepos = userRepos;
-            cachedStarredRepos = starredRepos;
+            // cachedUserRepos = userRepos;
+            // cachedStarredRepos = starredRepos;
+            cache.set('userRepos', userRepos);
+            cache.set('starredRepos', starredRepos);
         }
     })
 
@@ -131,7 +138,6 @@ function Index ({ userRepos, starredRepos, user, router }) {
 属于node环境，不存在客户端domain这些window下才有的环境
 */
 
-
 Index.getInitialProps = async ({ ctx, reduxStore }) => {
     const user = reduxStore.getState().user;
     if (!user || !user.id) {
@@ -139,10 +145,10 @@ Index.getInitialProps = async ({ ctx, reduxStore }) => {
     }
 
     if (!isServer) {
-        if (cachedUserRepos && cachedStarredRepos) {
+        if (cache.get('userRepos') && cache.get('starredRepos')) {
             return {
-                userRepos: cachedUserRepos,
-                starredRepos: cachedStarredRepos
+                userRepos: cache.get('userRepos'),
+                starredRepos: cache.get('starredRepos')
             }
         } 
     }
