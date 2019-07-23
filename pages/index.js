@@ -6,9 +6,10 @@ import Router, { withRouter } from 'next/router';
 import Repo from '../components/Repos';
 import LRU from 'lru-cache';
 
+//#1 way to cache: lru-cache
 const cache = new LRU({
-    maxAge: 1000 * 60 * 10,
-})
+    maxAge: 1000 * 10,
+});
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -18,7 +19,8 @@ const url = '/search/repositories?q=react';
 
 const isServer = typeof window === 'undefined';
 
-let cachedUserRepos, cachedStarredRepos ;
+//#2 way to cache
+let cachedUserRepos, cachedStarredRepos;
 
 function Index ({ userRepos, starredRepos, user, router }) {
     const tabKey = router.query.key || '1';
@@ -29,12 +31,20 @@ function Index ({ userRepos, starredRepos, user, router }) {
 
     useEffect(() => {
         if (!isServer) {
-            // cachedUserRepos = userRepos;
-            // cachedStarredRepos = starredRepos;
-            cache.set('userRepos', userRepos);
-            cache.set('starredRepos', starredRepos);
+            cachedUserRepos = userRepos;
+            cachedStarredRepos = starredRepos;
+            // if (userRepos) {
+            //     cache.set('userRepos', userRepos);
+            // }
+            // if (starredRepos) {
+            //     cache.set('starredRepos', starredRepos);
+            // }
+            const cacheTimer = setTimeout(() => {
+                cachedUserRepos = null,
+                cachedStarredRepos = null
+            }, 1000 * 60 * 10 )
         }
-    })
+    }, [userRepos, starredRepos]);
 
     if (!user || !user.id) {
         return (
@@ -145,15 +155,20 @@ Index.getInitialProps = async ({ ctx, reduxStore }) => {
     }
 
     if (!isServer) {
-        if (cache.get('userRepos') && cache.get('starredRepos')) {
+        // if (cache.get('userRepos') && cache.get('starredRepos')) {
+        //     return {
+        //         userRepos: cache.get('userRepos'),
+        //         starredRepos: cache.get('starredRepos')
+        //     }
+        // }
+        if (cachedUserRepos && cachedStarredRepos) {
             return {
-                userRepos: cache.get('userRepos'),
-                starredRepos: cache.get('starredRepos')
+                userRepos: cachedUserRepos,
+                starredRepos: cachedStarredRepos,
             }
         } 
     }
     
-
     const userRepos = await api.request({ url: '/user/repos' }, ctx.req, ctx.res);
     const userStarredRepos = await api.request(
         { url: `/user/starred` },

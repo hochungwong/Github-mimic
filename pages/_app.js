@@ -8,8 +8,6 @@ import Router from 'next/router';
 import Link from 'next/link';
 import PageLoading from '../components/Page-loading';
 
-import axios from 'axios';
-
 class MyApp extends App {
     state = {
         context: 'value',
@@ -31,7 +29,7 @@ class MyApp extends App {
     componentDidMount() {
         Router.events.on('routeChangeStart', this.startLoading);
         Router.events.on('routeChangeComplete', this.stopLoading);
-        Router.events.on('routeChangeError', this.startLoading);
+        Router.events.on('routeChangeError', this.stopLoading);
     }
 
     componentWillUnmount() {

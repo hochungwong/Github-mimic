@@ -2727,9 +2727,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _components_Page_loading__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../components/Page-loading */ "./components/Page-loading.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_18__);
-
 
 
 
@@ -2792,7 +2789,7 @@ function (_App) {
     value: function componentDidMount() {
       next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeStart', this.startLoading);
       next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeComplete', this.stopLoading);
-      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeError', this.startLoading);
+      next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeError', this.stopLoading);
     }
   }, {
     key: "componentWillUnmount",
