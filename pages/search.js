@@ -1,6 +1,7 @@
 import { withRouter } from 'next/router';
 import { Row, Col, List } from 'antd';
 import Router from 'next/router';
+import Link from 'next/link';
 
 const api = require('../lib/api');
 
@@ -51,20 +52,37 @@ const SORT_TYPES = [
      fontWeight: 100, 
  }
 
+ const FilterLink = ({ name, query, lang, sort, order }) => {
+    // const doSearch = () => {
+    //     Router.push({
+    //         pathname: '/search',
+    //         query: {
+    //             query,
+    //             lang,
+    //             sort,
+    //             order
+    //         }
+    //     });
+    // };
+    let queryString = `?query=${query}`;
+    if (lang) queryString += `&lang=${lang}`;
+    if (sort) queryString += `&sort=${sort}&order=${order || 'desc' }`;
+    // if (page) queryString += `page=${page}`;
+
+    /**
+     * 1.SEO
+     * 2.while click on the 'Best Match', aviod sort and order are null
+     */
+    return <Link href={ `/search${queryString}` }><a>{ name }</a></Link>
+ }
+
 function Search({ router, repos }) {
     //get query
     console.log(repos);
     console.log(router);
 
-    const { query, sort, order, lang } = router.query;
-
-    const doSearch = (config) => {
-         Router.push({
-             pathname: '/search',
-             query: config
-         })
-    }
-
+    const { ...querys } = router.query;
+    const { lang, sort, order } = router.query;
     return (
         <div className="root">
             <Row gutter={20}>
@@ -78,16 +96,17 @@ function Search({ router, repos }) {
                             const selected = lang === item;
                             return (
                                 <List.Item style={selected ? selectedItemStyle : null}>
-                                    <a onClick={() => {
-                                        doSearch({ 
-                                            sort, 
-                                            order, 
-                                            query, 
-                                            lang: item 
-                                        })
-                                    }}>
-                                        {item}
-                                    </a>
+                                    { selected ? 
+                                        <span>{ item }</span> : 
+                                        (
+                                            <FilterLink
+                                                { ...querys }
+                                                lang={item}
+                                                name={item}
+                                            />  
+                                        ) 
+                                    }
+                                   
                                 </List.Item>
                             )
                         }}
@@ -107,16 +126,12 @@ function Search({ router, repos }) {
                             }
                             return (
                                 <List.Item style={selected ? selectedItemStyle : null}>
-                                    <a onClick={() => {
-                                        doSearch({ 
-                                            sort: item.value || '', 
-                                            order: item.order || '', 
-                                            query, 
-                                            lang 
-                                        })
-                                    }}>
-                                        {item.name}
-                                    </a>
+                                    <FilterLink
+                                        { ...querys }
+                                        sort={item.value}
+                                        order={item.order}
+                                        name={item.name}
+                                    />
                                 </List.Item>
                             )
                         }}
