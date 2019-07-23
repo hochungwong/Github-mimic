@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { withRouter } from 'next/router';
 import { Row, Col, List } from 'antd';
 import Router from 'next/router';
@@ -52,18 +53,9 @@ const SORT_TYPES = [
      fontWeight: 100, 
  }
 
- const FilterLink = ({ name, query, lang, sort, order }) => {
-    // const doSearch = () => {
-    //     Router.push({
-    //         pathname: '/search',
-    //         query: {
-    //             query,
-    //             lang,
-    //             sort,
-    //             order
-    //         }
-    //     });
-    // };
+ //memo
+ const FilterLink = memo(({ name, query, lang, sort, order }) => {
+    //avoid re-render
     let queryString = `?query=${query}`;
     if (lang) queryString += `&lang=${lang}`;
     if (sort) queryString += `&sort=${sort}&order=${order || 'desc' }`;
@@ -74,14 +66,14 @@ const SORT_TYPES = [
      * 2.while click on the 'Best Match', aviod sort and order are null
      */
     return <Link href={ `/search${queryString}` }><a>{ name }</a></Link>
- }
+ });
 
 function Search({ router, repos }) {
     //get query
     console.log(repos);
     console.log(router);
 
-    const { ...querys } = router.query;
+    const { ... querys } = router.query;
     const { lang, sort, order } = router.query;
     return (
         <div className="root">
@@ -100,7 +92,7 @@ function Search({ router, repos }) {
                                         <span>{ item }</span> : 
                                         (
                                             <FilterLink
-                                                { ...querys }
+                                                { ... querys }
                                                 lang={item}
                                                 name={item}
                                             />  
@@ -126,18 +118,34 @@ function Search({ router, repos }) {
                             }
                             return (
                                 <List.Item style={selected ? selectedItemStyle : null}>
-                                    <FilterLink
-                                        { ...querys }
-                                        sort={item.value}
-                                        order={item.order}
-                                        name={item.name}
-                                    />
+                                    {
+                                        selected ? <span>{ item.name }</span>
+                                        : 
+                                        (
+                                            <FilterLink
+                                                { ... querys }
+                                                sort={item.value}
+                                                order={item.order}
+                                                name={item.name}
+                                            />               
+                                        )
+                                    }
+                                    
                                 </List.Item>
                             )
                         }}
                     />
                 </Col>
             </Row>
+            <style jsx>{`
+                .root {
+                    padding: 20px 0; 
+                }
+                .list-header {
+                    font-weight: 800;
+                    font-size: 16px;
+                }
+            `}</style>
         </div>
     )
 }
