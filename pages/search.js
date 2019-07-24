@@ -196,6 +196,7 @@ function Search({ router, repos }) {
 }
 
 Search.getInitialProps = async ({ ctx }) => {
+    console.log('app init')
     const { query, sort, lang, order, page } = ctx.query;
     
     if (!query) {
@@ -210,7 +211,7 @@ Search.getInitialProps = async ({ ctx }) => {
     let queryString = `?q=${query}`;
     if (lang) queryString += `+language:${lang}`;
     if (sort) queryString += `&sort=${sort}&order=${order || 'desc' }`;
-    if (page) queryString += `page=${page}`;
+    if (page) queryString += `&page=${page}`;
 
     queryString += `&per_page=${per_page}`;
 
