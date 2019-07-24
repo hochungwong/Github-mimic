@@ -196,7 +196,6 @@ function Search({ router, repos }) {
 }
 
 Search.getInitialProps = async ({ ctx }) => {
-    console.log('app init')
     const { query, sort, lang, order, page } = ctx.query;
     
     if (!query) {
