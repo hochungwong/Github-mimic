@@ -1044,6 +1044,17 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "regenerator-run
 
 /***/ }),
 
+/***/ "./node_modules/github-markdown-css/github-markdown.css":
+/*!**************************************************************!*\
+  !*** ./node_modules/github-markdown-css/github-markdown.css ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./node_modules/next/dist/client/link.js":
 /*!***********************************************!*\
   !*** ./node_modules/next/dist/client/link.js ***!
@@ -2072,26 +2083,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! markdown-it */ "markdown-it");
 /* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(markdown_it__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_with_repo_basic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/with-repo-basic */ "./components/with-repo-basic.jsx");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! github-markdown-css */ "./node_modules/github-markdown-css/github-markdown.css");
+/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(github_markdown_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_with_repo_basic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/with-repo-basic */ "./components/with-repo-basic.jsx");
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
 
-var md = new markdown_it__WEBPACK_IMPORTED_MODULE_3___default.a();
+
+var md = new markdown_it__WEBPACK_IMPORTED_MODULE_3___default.a(); //decode Chinese
+
+function b64_to_utf8(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
 
 function Detail(_ref) {
   var readme = _ref.readme;
   var content = atob(readme.content);
   var html = md.render(content);
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+    className: "markdown-body"
+  }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: html
     }
-  });
+  }));
 }
 
 Detail.getInitialProps =
@@ -2109,7 +2129,7 @@ function () {
             _ref2$ctx = _ref2.ctx, _ref2$ctx$query = _ref2$ctx.query, owner = _ref2$ctx$query.owner, name = _ref2$ctx$query.name, req = _ref2$ctx.req, res = _ref2$ctx.res;
             console.log('detial get init');
             _context.next = 4;
-            return _lib_api__WEBPACK_IMPORTED_MODULE_5___default.a.request({
+            return _lib_api__WEBPACK_IMPORTED_MODULE_6___default.a.request({
               url: "/repos/".concat(owner, "/").concat(name, "/readme")
             }, req, res);
 
@@ -2132,7 +2152,7 @@ function () {
   };
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_components_with_repo_basic__WEBPACK_IMPORTED_MODULE_4__["default"])(Detail, 'readme'));
+/* harmony default export */ __webpack_exports__["default"] = (Object(_components_with_repo_basic__WEBPACK_IMPORTED_MODULE_5__["default"])(Detail, 'readme'));
 
 /***/ }),
 
