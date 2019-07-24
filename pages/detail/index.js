@@ -1,13 +1,30 @@
 import withRepoBasic from '../../components/with-repo-basic';
+import api from '../../lib/api';
 
-function Detail({ text }) {
-    return <span>Detail Index { text }</span>
+function Detail({ readme }) {
+    console.log(atob(readme.content));
+    return <span>Detail Index</span>
 }
 
-Detail.getInitialProps = async () => {
-    console.log('detial get init')
+Detail.getInitialProps = async ({ ctx: {
+    query: {
+        owner, 
+        name 
+    },
+    req,
+    res
+}}) => {
+    console.log('detial get init');
+    const readmeResp = await api.request(
+        {
+            url: `/repos/${owner}/${name}/readme`
+        },
+        req,
+        res
+    )
+     
     return {
-        text: 123
+        readme: readmeResp.data
     }
 }
 
