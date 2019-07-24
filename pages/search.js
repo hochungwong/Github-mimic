@@ -1,10 +1,10 @@
-import { memo, isValidElement } from 'react';
+import { memo, isValidElement, useEffect } from 'react';
 import { withRouter } from 'next/router';
 import { Row, Col, List, Pagination } from 'antd';
 import Link from 'next/link';
 
 import Repos from '../components/Repos';
-
+import { cacheReposArray } from '../lib/repo-basic-cache';
 const api = require('../lib/api');
 
 const LANGUAGE = [
@@ -82,9 +82,14 @@ const per_page = 20;
 function Search({ router, repos }) {
     //get query
     console.log(repos);
-
+    
     const { ... querys } = router.query;
     const { lang, sort, order, page } = router.query;
+
+    useEffect(() => {
+        cacheReposArray(repos.items);
+    })
+
     return (
         <div className="root">
             <Row gutter={20}>

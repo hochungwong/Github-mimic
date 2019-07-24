@@ -2,6 +2,8 @@ import Repo from './Repos';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 
+import { getRepo, cacheRepo } from '../lib/repo-basic-cache';
+
 const api = require('../lib/api');
 
 //help function to concat query string
@@ -65,6 +67,23 @@ export default function (Comp, type = 'readme') {
         console.log('context', context);
         const { router, ctx } = context;
         const { owner, name } = ctx.query;
+
+        const full_name = `${owner}/${name}`;
+        const repo = getRepo(full_name);
+        
+        let pageData = {} ;
+        if (Comp.getInitialProps) {
+            pageData = await Comp.getInitialProps(context);
+        }
+        
+        //get cache
+        if (repo) {
+            return {
+                repoBasic: repo,
+                ... pageData,
+            }
+        }
+
         const repoBasic = await api.request({
                 url: `/repos/${owner}/${name}`, 
             },
@@ -72,11 +91,8 @@ export default function (Comp, type = 'readme') {
             ctx.res
         );
 
-        let pageData = {} ;
-        if (Comp.getInitialProps) {
-            pageData = await Comp.getInitialProps(context);
-        }
-    
+        cacheRepo(repoBasic.data);
+
         return {
             repoBasic: repoBasic.data,
             ... pageData
