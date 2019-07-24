@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Repo from './Repos';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
@@ -5,6 +6,8 @@ import { withRouter } from 'next/router';
 import { getRepo, cacheRepo } from '../lib/repo-basic-cache';
 
 const api = require('../lib/api');
+
+const isServer = typeof window === 'undefined';
 
 //help function to concat query string
 function makeQuery(queryObject) {
@@ -20,6 +23,11 @@ export default function (Comp, type = 'readme') {
     function WithDetail({ repoBasic, router, ...rest }) {
         console.log(repoBasic);
         const query = makeQuery(router.query);
+
+        useEffect(() => {
+            !isServer && cacheRepo(repoBasic);
+        })
+
         return (
             <div c lassName="root">
                 <div className="repo-basic">
@@ -90,8 +98,6 @@ export default function (Comp, type = 'readme') {
             ctx.req,
             ctx.res
         );
-
-        cacheRepo(repoBasic.data);
 
         return {
             repoBasic: repoBasic.data,

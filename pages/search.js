@@ -58,8 +58,9 @@ function noop() {};
 
 const per_page = 20;
 
+const isServer = typeof window === 'undefined';
  //memo
- const FilterLink = memo(({ name, query, lang, sort, order, page }) => {
+const FilterLink = memo(({ name, query, lang, sort, order, page }) => {
     //avoid re-render
     let queryString = `?query=${ query }`;
     if (lang) queryString += `&lang=${ lang }`;
@@ -67,7 +68,7 @@ const per_page = 20;
     if (page) queryString += `&page=${ page }`;
 
     queryString += `&per_page=${ per_page }`;
-    
+
     /**
      * 1.SEO
      * 2.while click on the 'Best Match', aviod sort and order are null
@@ -77,7 +78,7 @@ const per_page = 20;
             { isValidElement(name) ? name : <a>{ name }</a>}
         </Link>
     )
- });
+});
 
 function Search({ router, repos }) {
     //get query
@@ -87,7 +88,7 @@ function Search({ router, repos }) {
     const { lang, sort, order, page } = router.query;
 
     useEffect(() => {
-        cacheReposArray(repos.items);
+        if (!isServer) cacheReposArray(repos.items);
     })
 
     return (

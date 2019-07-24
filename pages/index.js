@@ -6,6 +6,8 @@ import Router, { withRouter } from 'next/router';
 import Repo from '../components/Repos';
 import LRU from 'lru-cache';
 
+import { cacheReposArray } from '../lib/repo-basic-cache';
+
 //#1 way to cache: lru-cache
 const cache = new LRU({
     maxAge: 1000 * 10,
@@ -45,6 +47,13 @@ function Index ({ userRepos, starredRepos, user, router }) {
             }, 1000 * 60 * 10 )
         }
     }, [userRepos, starredRepos]);
+
+    useEffect(() => {
+        if (!isServer) {
+            cacheReposArray(userRepos);
+            cacheReposArray(starredRepos);
+        }
+    });
 
     if (!user || !user.id) {
         return (
