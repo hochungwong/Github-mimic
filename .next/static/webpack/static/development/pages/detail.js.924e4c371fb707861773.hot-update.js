@@ -28,7 +28,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var md = new markdown_it__WEBPACK_IMPORTED_MODULE_3___default.a(); //decode Chinese
+var md = new markdown_it__WEBPACK_IMPORTED_MODULE_3___default.a({
+  html: true,
+  linkify: true
+}); //decode Chinese
 
 function b64_to_utf8(str) {
   return decodeURIComponent(escape(atob(str)));
@@ -36,7 +39,8 @@ function b64_to_utf8(str) {
 
 function Detail(_ref) {
   var readme = _ref.readme;
-  var content = atob(readme.content);
+  var content = b64_to_utf8(readme.content);
+  content += "This is http://www.baidu.com";
   var html = md.render(content);
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
     className: "markdown-body"
@@ -90,4 +94,4 @@ function () {
 /***/ })
 
 })
-//# sourceMappingURL=detail.js.c1d99ae10904e6dd85c2.hot-update.js.map
+//# sourceMappingURL=detail.js.924e4c371fb707861773.hot-update.js.map

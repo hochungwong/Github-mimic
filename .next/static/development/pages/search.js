@@ -54993,7 +54993,7 @@ function () {
 
 /***/ }),
 
-/***/ 13:
+/***/ 16:
 /*!******************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Fsearch&absolutePagePath=%2FUsers%2Fhochungwong%2FDocuments%2FReact%2Fnextjs-project%2Fpages%2Fsearch.js ***!
   \******************************************************************************************************************************************************/
@@ -55016,5 +55016,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[13,"static/runtime/webpack.js","styles"]]]);
+},[[16,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=search.js.map

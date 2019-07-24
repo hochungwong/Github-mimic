@@ -1,5 +1,52 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/detail.js"],{
 
+/***/ "./components/MarkdownRenderer.jsx":
+/*!*****************************************!*\
+  !*** ./components/MarkdownRenderer.jsx ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! markdown-it */ "./node_modules/markdown-it/index.js");
+/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(markdown_it__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! github-markdown-css */ "./node_modules/github-markdown-css/github-markdown.css");
+/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(github_markdown_css__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+var md = new markdown_it__WEBPACK_IMPORTED_MODULE_1___default.a({
+  html: true,
+  linkify: true
+}); //decode Chinese
+
+function b64_to_utf8(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function MarkdownRenderer(_ref) {
+  var content = _ref.content,
+      isBase64 = _ref.isBase64;
+  var markdown = isBase64 ? b64_to_utf8(content) : content; //re-render only if the markdown changes
+
+  var html = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
+    return md.render(markdown);
+  }, [markdown]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "markdown-body"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: html
+    }
+  }));
+}));
+
+/***/ }),
+
 /***/ "./components/Repos.jsx":
 /*!******************************!*\
   !*** ./components/Repos.jsx ***!
@@ -45538,37 +45585,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! markdown-it */ "./node_modules/markdown-it/index.js");
-/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(markdown_it__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! github-markdown-css */ "./node_modules/github-markdown-css/github-markdown.css");
-/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(github_markdown_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_with_repo_basic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/with-repo-basic */ "./components/with-repo-basic.jsx");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_with_repo_basic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/with-repo-basic */ "./components/with-repo-basic.jsx");
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_MarkdownRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/MarkdownRenderer */ "./components/MarkdownRenderer.jsx");
 
 
 
 
 
 
-
-var md = new markdown_it__WEBPACK_IMPORTED_MODULE_3___default.a(); //decode Chinese
-
-function b64_to_utf8(str) {
-  return decodeURIComponent(escape(atob(str)));
-}
 
 function Detail(_ref) {
   var readme = _ref.readme;
-  var content = atob(readme.content);
-  var html = md.render(content);
-  return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    className: "markdown-body"
-  }, react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: html
-    }
-  }));
+  return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_MarkdownRenderer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    content: readme.content,
+    isBase64: true
+  });
 }
 
 Detail.getInitialProps =
@@ -45586,7 +45619,7 @@ function () {
             _ref2$ctx = _ref2.ctx, _ref2$ctx$query = _ref2$ctx.query, owner = _ref2$ctx$query.owner, name = _ref2$ctx$query.name, req = _ref2$ctx.req, res = _ref2$ctx.res;
             console.log('detial get init');
             _context.next = 4;
-            return _lib_api__WEBPACK_IMPORTED_MODULE_6___default.a.request({
+            return _lib_api__WEBPACK_IMPORTED_MODULE_4___default.a.request({
               url: "/repos/".concat(owner, "/").concat(name, "/readme")
             }, req, res);
 
@@ -45609,11 +45642,11 @@ function () {
   };
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_components_with_repo_basic__WEBPACK_IMPORTED_MODULE_5__["default"])(Detail, 'readme'));
+/* harmony default export */ __webpack_exports__["default"] = (Object(_components_with_repo_basic__WEBPACK_IMPORTED_MODULE_3__["default"])(Detail, 'readme'));
 
 /***/ }),
 
-/***/ 11:
+/***/ 13:
 /*!**************************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Fdetail&absolutePagePath=%2FUsers%2Fhochungwong%2FDocuments%2FReact%2Fnextjs-project%2Fpages%2Fdetail%2Findex.js ***!
   \**************************************************************************************************************************************************************/
@@ -45636,5 +45669,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[11,"static/runtime/webpack.js","styles"]]]);
+},[[13,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=detail.js.map

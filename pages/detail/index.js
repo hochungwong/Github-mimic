@@ -1,23 +1,14 @@
-import MarkdownIt from 'markdown-it';
-import 'github-markdown-css';
-
 import withRepoBasic from '../../components/with-repo-basic';
 import api from '../../lib/api';
 
-const md = new MarkdownIt();
+import MDRenderer from '../../components/MarkdownRenderer';
 
-//decode Chinese
-function b64_to_utf8(str) {
-    return decodeURIComponent(escape(atob(str)));
-}
-
-function Detail({ readme }) {
-    const content = atob(readme.content);
-    const html = md.render(content);
+function Detail({ readme }) {    
     return (
-        <div className="markdown-body">
-            <div dangerouslySetInnerHTML={{ __html: html }} />  
-        </div>
+        <MDRenderer 
+            content={readme.content}
+            isBase64={true}
+        />
     )
 }
 
