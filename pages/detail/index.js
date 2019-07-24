@@ -1,9 +1,16 @@
+import MarkdownIt from 'markdown-it';
+
 import withRepoBasic from '../../components/with-repo-basic';
 import api from '../../lib/api';
 
+const md = new MarkdownIt();
+
 function Detail({ readme }) {
-    console.log(atob(readme.content));
-    return <span>Detail Index</span>
+    const content = atob(readme.content);
+    const html = md.render(content);
+    return (
+        <div dangerouslySetInnerHTML={{ __html: html }} />  
+    )
 }
 
 Detail.getInitialProps = async ({ ctx: {
