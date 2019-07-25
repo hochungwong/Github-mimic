@@ -53,7 +53,8 @@ const SCOPE = 'user';
 
 module.exports = withBundleAnalyzer(withCss({
     webpack(config) {
-        config.plugin.push(new webpack.IgnorePlugin(/^\.\/locale$/));
+        config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
+        return config;
     },
     //在服务端渲染和客户端渲染都可获取的配置
     publicRuntimeConfig: {

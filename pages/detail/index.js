@@ -2,7 +2,9 @@ import withRepoBasic from '../../components/with-repo-basic';
 import dynamic from 'next/dynamic';
 import api from '../../lib/api';
 
-const MDRenderer = dynamic(() => import('../../components/MarkdownRenderer' ));
+const MDRenderer = dynamic(
+    () => import('../../components/MarkdownRenderer'),
+);
 
 function Detail({ readme }) {    
     return (

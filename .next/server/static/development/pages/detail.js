@@ -3,6 +3,12 @@ module.exports =
 /******/ 	// The module cache
 /******/ 	var installedModules = require('../../../ssr-module-cache.js');
 /******/
+/******/ 	// object to store loaded chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	var installedChunks = {
+/******/ 		"static/development/pages/detail.js": 0
+/******/ 	};
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -33,6 +39,26 @@ module.exports =
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// require() chunk loading for javascript
+/******/
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] !== 0) {
+/******/ 			var chunk = require("../../../" + ({}[chunkId]||chunkId) + ".js");
+/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
+/******/ 			for(var moduleId in moreModules) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 			for(var i = 0; i < chunkIds.length; i++)
+/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -86,59 +112,19 @@ module.exports =
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// uncaught error handler for webpack runtime
+/******/ 	__webpack_require__.oe = function(err) {
+/******/ 		process.nextTick(function() {
+/******/ 			throw err; // catch this error by using import().catch()
+/******/ 		});
+/******/ 	};
+/******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./components/MarkdownRenderer.jsx":
-/*!*****************************************!*\
-  !*** ./components/MarkdownRenderer.jsx ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! markdown-it */ "markdown-it");
-/* harmony import */ var markdown_it__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(markdown_it__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! github-markdown-css */ "./node_modules/github-markdown-css/github-markdown.css");
-/* harmony import */ var github_markdown_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(github_markdown_css__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-var md = new markdown_it__WEBPACK_IMPORTED_MODULE_1___default.a({
-  html: true,
-  linkify: true
-}); //decode Chinese
-
-function b64_to_utf8(str) {
-  return decodeURIComponent(escape(atob(str)));
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function MarkdownRenderer(_ref) {
-  var content = _ref.content,
-      isBase64 = _ref.isBase64;
-  var markdown = isBase64 ? b64_to_utf8(content) : content; //re-render only if the markdown changes
-
-  var html = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
-    return md.render(markdown);
-  }, [markdown]);
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "markdown-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: html
-    }
-  }));
-}));
-
-/***/ }),
 
 /***/ "./components/Repos.jsx":
 /*!******************************!*\
@@ -518,10 +504,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheRepo", function() { return cacheRepo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRepo", function() { return getRepo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheReposArray", function() { return cacheReposArray; });
-/* harmony import */ var lru_cache__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lru-cache */ "lru-cache");
-/* harmony import */ var lru_cache__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lru_cache__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_array_is_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/array/is-array */ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_array_is_array__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_array_is_array__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lru_cache__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lru-cache */ "lru-cache");
+/* harmony import */ var lru_cache__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lru_cache__WEBPACK_IMPORTED_MODULE_1__);
 
-var cache = new lru_cache__WEBPACK_IMPORTED_MODULE_0___default.a({
+
+var cache = new lru_cache__WEBPACK_IMPORTED_MODULE_1___default.a({
   //expired time: 1hr
   maxAge: 1000 * 60 * 60
 });
@@ -535,11 +524,25 @@ function getRepo(full_name) {
 }
 function cacheReposArray() {
   var repos = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Array;
+
   // debugger;
-  repos.forEach(function (repo) {
-    return cacheRepo(repo);
-  });
+  if (repos && _babel_runtime_corejs2_core_js_array_is_array__WEBPACK_IMPORTED_MODULE_0___default()(repos)) {
+    repos.forEach(function (repo) {
+      return cacheRepo(repo);
+    });
+  }
 }
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/array/is-array */ "core-js/library/fn/array/is-array");
 
 /***/ }),
 
@@ -1087,17 +1090,6 @@ module.exports = _typeof;
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(/*! regenerator-runtime */ "regenerator-runtime");
-
-
-/***/ }),
-
-/***/ "./node_modules/github-markdown-css/github-markdown.css":
-/*!**************************************************************!*\
-  !*** ./node_modules/github-markdown-css/github-markdown.css ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
 
 
 /***/ }),
@@ -2129,19 +2121,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _components_with_repo_basic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/with-repo-basic */ "./components/with-repo-basic.jsx");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_MarkdownRenderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/MarkdownRenderer */ "./components/MarkdownRenderer.jsx");
+/* harmony import */ var next_dynamic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/dynamic */ "next/dynamic");
+/* harmony import */ var next_dynamic__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_dynamic__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/api */ "./lib/api.js");
+/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_lib_api__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
 
 
 
+var MDRenderer = next_dynamic__WEBPACK_IMPORTED_MODULE_4___default()(function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ../../components/MarkdownRenderer */ "./components/MarkdownRenderer.jsx"));
+}, {
+  loadableGenerated: {
+    webpack: function webpack() {
+      return [/*require.resolve*/(/*! ../../components/MarkdownRenderer */ "./components/MarkdownRenderer.jsx")];
+    },
+    modules: ['../../components/MarkdownRenderer']
+  }
+});
 
 function Detail(_ref) {
   var readme = _ref.readme;
-  return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_MarkdownRenderer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(MDRenderer, {
     content: readme.content,
     isBase64: true
   });
@@ -2162,7 +2165,7 @@ function () {
             _ref2$ctx = _ref2.ctx, _ref2$ctx$query = _ref2$ctx.query, owner = _ref2$ctx$query.owner, name = _ref2$ctx$query.name, req = _ref2$ctx.req, res = _ref2$ctx.res;
             console.log('detial get init');
             _context.next = 4;
-            return _lib_api__WEBPACK_IMPORTED_MODULE_4___default.a.request({
+            return _lib_api__WEBPACK_IMPORTED_MODULE_5___default.a.request({
               url: "/repos/".concat(owner, "/").concat(name, "/readme")
             }, req, res);
 
@@ -2189,7 +2192,7 @@ function () {
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /*!*************************************!*\
   !*** multi ./pages/detail/index.js ***!
   \*************************************/
@@ -2231,6 +2234,17 @@ module.exports = require("antd/lib/icon/style/css");
 /***/ (function(module, exports) {
 
 module.exports = require("axios");
+
+/***/ }),
+
+/***/ "core-js/library/fn/array/is-array":
+/*!****************************************************!*\
+  !*** external "core-js/library/fn/array/is-array" ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("core-js/library/fn/array/is-array");
 
 /***/ }),
 
@@ -2407,6 +2421,17 @@ module.exports = require("moment");
 /***/ (function(module, exports) {
 
 module.exports = require("next-server/dist/lib/utils");
+
+/***/ }),
+
+/***/ "next/dynamic":
+/*!*******************************!*\
+  !*** external "next/dynamic" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("next/dynamic");
 
 /***/ }),
 
