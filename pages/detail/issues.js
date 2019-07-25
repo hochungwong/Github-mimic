@@ -7,9 +7,9 @@ import api from '../../lib/api';
 
 import { getLastUpdated } from '../../lib/utils';
 
+import SearchUser from '../../components/SearchUser';
+
 const MdRenderer = dynamic(() => import('../../components/MarkdownRenderer'));
-
-
 
 function IssueDetail({ issue }) {
     return (
@@ -117,6 +117,7 @@ function Issues({ issues }) {
     console.log(issues);
     return (
         <div className="root">
+            <SearchUser />
             <div className="issues">
                 {issues.map(issue => <IssueItem issue={issue} key={issue.id}/>)}
             </div>
