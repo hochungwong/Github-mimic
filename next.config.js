@@ -1,4 +1,5 @@
 //modify next default configuration
+const webpack = require('webpack');
 const withCss = require('@zeit/next-css');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const config = require('./config');
@@ -51,9 +52,23 @@ const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
 const SCOPE = 'user';
 
 module.exports = withBundleAnalyzer(withCss({
+    webpack(config) {
+        config.plugin.push(new webpack.IgnorePlugin(/^\.\/locale$/));
+    },
     //在服务端渲染和客户端渲染都可获取的配置
     publicRuntimeConfig: {
        GITHUB_OAUTH_URL: config.GITHUB_OAUTH_URL,
        OAUTH_URL: config.OAUTH_URL
+    },
+    analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
+    bundleAnalyzerConfig: {
+         server: {
+             analyzerMode: 'static',
+             reportFilename: '../bundles/server.html'
+         },
+         browser: {
+            analyzerMode: 'static',
+            reportFilename: '../bundles/client.html'
+        },
     }
 }));
