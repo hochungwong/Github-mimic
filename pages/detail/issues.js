@@ -72,6 +72,9 @@ function IssueItem({ issue }) {
                 <div className="main-info">
                     <h6>
                         <span>{issue.title}</span>
+                        {
+                            issue.labels.map(label => <Label label={label} key={label.id}/>)
+                        }
                     </h6>
                     <p className="sub-info">
                         <span>Updated at {getLastUpdated(issue.updated_at)}</span>
@@ -130,15 +133,41 @@ function makeQuery(creator, state, labels) {
     return `?${arr.join('&')}`;
 }
 
+function Label({ label }) {
+    return (
+        <>
+            <span 
+                className="label"
+                style={{
+                    backgroundColor: `#${label.color}`
+                }}
+            >
+                {label.name}
+            </span>
+            <style jsx>{`
+                .label {
+                    display: inline-block;
+                    line-height: 20px;
+                    margin-left: 15px;
+                    padding: 3px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                }
+            `}</style>
+        </>
+    )
+}
+
 const Option = Select.Option;
 
 function Issues({ initialIssues, labels, owner, name }) {
-    
     const [creator, setCreator] = useState();
     const [status, setStatus] = useState();
     const [label, setLabel] = useState([]);
     const [issues, setIssues] = useState(initialIssues);
     const [fetching, setFetching] = useState(false);
+
+    console.log(issues)
 
     const handleCreatorChange = useCallback(value => {
         setCreator(value);
