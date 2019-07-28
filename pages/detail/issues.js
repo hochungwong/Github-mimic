@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 import withRepoBasic from '../../components/with-repo-basic';
@@ -8,6 +8,8 @@ import api from '../../lib/api';
 import { getLastUpdated } from '../../lib/utils';
 
 import SearchUser from '../../components/SearchUser';
+
+const  CACHE = {};
 
 const MdRenderer = dynamic(() => import('../../components/MarkdownRenderer'));
 
@@ -158,6 +160,8 @@ function Label({ label }) {
     )
 }
 
+const isSever = typeof window === 'undefined';
+
 const Option = Select.Option;
 
 function Issues({ initialIssues, labels, owner, name }) {
@@ -167,7 +171,11 @@ function Issues({ initialIssues, labels, owner, name }) {
     const [issues, setIssues] = useState(initialIssues);
     const [fetching, setFetching] = useState(false);
 
-    console.log(issues)
+    useEffect(() => {
+        if (!isSever) {
+            CACHE[`${owner}/${name}`] = labels;
+        }   
+    }, [owner, name, labels]);
 
     const handleCreatorChange = useCallback(value => {
         setCreator(value);
@@ -274,13 +282,16 @@ function Issues({ initialIssues, labels, owner, name }) {
 Issues.getInitialProps = async ({ ctx }) => {
     
     const { owner, name } = ctx.query;
+    const full_name = `${owner}/${name}`;
+
     const fetchs = await Promise.all([
         await api.request({
             url: `/repos/${owner}/${name}/issues`
         }, ctx.req, ctx.res),
+        CACHE[full_name] ? Promise.resolve(CACHE[full_name]) : 
         await api.request({
-        url: `/repos/${owner}/${name}/labels`
-    }, ctx.req, ctx.res),
+            url: `/repos/${owner}/${name}/labels`
+        }, ctx.req, ctx.res),
     ])
 
     return {

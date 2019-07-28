@@ -1,7 +1,7 @@
 import { useState ,useCallback } from 'react';
 import getConfig from 'next/config';
 import Link from 'next/link';
-import { Button, Layout, Icon, Input, Avatar, Tooltip, Dropdown, Menu} from 'antd';
+import { Layout, Icon, Input, Avatar, Tooltip, Dropdown, Menu} from 'antd';
 import { connect } from 'react-redux';
 import { logout } from '../store/store';
 import Container from './Container';
