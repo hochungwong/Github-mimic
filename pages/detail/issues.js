@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 
 import withRepoBasic from '../../components/with-repo-basic';
-import { Avatar, Button, Select } from 'antd';
+import { Avatar, Button, Select, Spin } from 'antd';
 import api from '../../lib/api';
 
 import { getLastUpdated } from '../../lib/utils';
@@ -138,6 +138,7 @@ function Issues({ initialIssues, labels, owner, name }) {
     const [status, setStatus] = useState();
     const [label, setLabel] = useState([]);
     const [issues, setIssues] = useState(initialIssues);
+    const [fetching, setFetching] = useState(false);
 
     const handleCreatorChange = useCallback(value => {
         setCreator(value);
@@ -151,11 +152,18 @@ function Issues({ initialIssues, labels, owner, name }) {
         setLabel(value);
     }, []);
 
-    const handleSearch = () => {
+    const handleSearch = useCallback(() => {
+        setFetching(true);
         api.request({
             url: `/repos/${owner}/${name}/issues${makeQuery(creator, status, label)}`
-        }).then(resp => setIssues(resp.data));
-    }
+        }).then(resp => {
+            setIssues(resp.data);
+            setFetching(false);
+        }).catch(e => {
+            console.log(e);
+            setFetching(false);
+        });
+    }, [owner, name, creator, status, label]);
 
     return (
         <div className="root">
@@ -188,7 +196,7 @@ function Issues({ initialIssues, labels, owner, name }) {
                     value={label}
                 >
                     { labels.map(label => 
-                        <Option 
+                        <Option
                             value={label.name} 
                             key={label.id}
                         >
@@ -199,13 +207,20 @@ function Issues({ initialIssues, labels, owner, name }) {
                 <Button 
                     type='primary'
                     onClick={handleSearch}
+                    disabled={fetching}
                 >
                     Search
                 </Button>
             </div>
-            <div className="issues">
-                {issues.map(issue => <IssueItem issue={issue} key={issue.id}/>)}
-            </div>
+            {
+                fetching ? 
+                <div className="loading"><Spin /></div> 
+                : 
+                <div className="issues">
+                    {issues.map(issue => <IssueItem issue={issue} key={issue.id}/>)}
+                </div>
+            }
+            
             <style jsx>{`
                 .issues {
                     border: 1px solid #eee;
@@ -215,7 +230,13 @@ function Issues({ initialIssues, labels, owner, name }) {
                 }
                 .search {
                     display: flex
-                }    
+                }
+                .loading {
+                    height: 400px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             `}</style>
         </div>
     )
